@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Yeni Şifre</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* ARKA PLAN: koyu mor -> açık mora geçiş (auth.html ile aynı mantık) */
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #2a004e, #6d2dfd, #b597ff);
+        background-size: 300% 300%;
+        animation: gradientFlow 8s ease infinite;
+        color: #0f172a;
+    }
+
+    @keyframes gradientFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* KUTU */
+    .auth-wrapper {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 32px 24px;
+        width: 100%;
+        max-width: 420px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 24px;
+        color: #4a007e;
+    }
+
+    .auth-header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+    }
+
+    .auth-header p {
+        font-size: 0.9rem;
+        color: #6b21a8;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    label {
+        font-size: 0.85rem;
+        color: #4a007e;
+    }
+
+    /* 6 KUTU KOD GİRİŞİ */
+    .code-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 4px;
+    }
+
+    .code-input {
+        width: 40px;
+        height: 44px;
+        text-align: center;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        border: 1px solid #cdbdff;
+        background: #fff;
+        color: #3d0066;
+        outline: none;
+        transition: .18s;
+    }
+
+    .code-input:focus {
+        border-color: #d478ff;
+        box-shadow: 0 0 0 1px rgba(212, 120, 255, 0.6);
+    }
+
+    /* ŞİFRE ALANLARI + GÖZ BUTONU */
+    .password-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 10px;
+        border: 1px solid #cdbdff;
+        padding: 0 8px;
+        background: #fff;
+    }
+
+    .password-row input {
+        flex: 1;
+        border: none;
+        padding: 10px 4px;
+        font-size: 0.9rem;
+        background: transparent;
+        color: #111;
+        outline: none;
+    }
+
+    .toggle-btn {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 0.8rem;
+        color: #7c3aed;
+        padding: 0 4px;
+    }
+
+    .primary-btn {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        background: linear-gradient(135deg, #ff84cf, #c084fc);
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-top: 6px;
+        transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+        width: 100%;
+    }
+
+    .primary-btn:hover {
+        filter: brightness(1.05);
+        box-shadow: 0 10px 20px rgba(255, 132, 207, 0.45);
+    }
+
+    .primary-btn:active {
+        transform: translateY(1px);
+        box-shadow: none;
+    }
+
+    .divider {
+        margin: 18px 0 10px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #6b7280;
+        position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 30%;
+        height: 1px;
+        background: #e5e7eb;
+    }
+
+    .divider::before {
+        left: 0;
+    }
+
+    .divider::after {
+        right: 0;
+    }
+
+    .back-link {
+        text-decoration: none;
+        color: #7c3aed;
+        font-size: 0.9rem;
+        display: block;
+        text-align: center;
+        margin-top: 4px;
+    }
+
+    /* TOAST (Özel bildirim) */
+    .toast {
+        position: fixed;
+        left: 50%;
+        bottom: -80px;
+        transform: translateX(-50%);
+        background: #16a34a;
+        color: #ecfdf3;
+        padding: 10px 18px;
+        border-radius: 999px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        font-size: 0.9rem;
+        opacity: 0;
+        transition: .3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 50;
+    }
+
+    .toast.show {
+        bottom: 24px;
+        opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+        .auth-wrapper {
+            margin: 0 12px;
+            padding: 24px 18px;
+        }
+
+        .auth-header h1 {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="auth-wrapper">
+
+    <div class="auth-header">
+        <h1>Yeni Şifre Oluştur 🔑</h1>
+        <p>Emailine gelen kodu gir ve yeni şifreni belirle.</p>
+    </div>
+
+    <form id="reset-form">
+        <!-- DOĞRULAMA KODU -->
+        <div class="field">
+            <label>Doğrulama Kodu</label>
+            <div class="code-row">
+                <input class="code-input" type="text" maxlength="1">
+                <input class="code-input" type="text" maxlength="1">
+                <input class="code-input" type="text" maxlength="1">
+                <input class="code-input" type="text" maxlength="1">
+                <input class="code-input" type="text" maxlength="1">
+                <input class="code-input" type="text" maxlength="1">
+            </div>
+        </div>
+
+        <!-- YENİ ŞİFRE -->
+        <div class="field">
+            <label for="newpass">Yeni Şifre</label>
+            <div class="password-row">
+                <input id="newpass" type="password" placeholder="Yeni şifreni yaz" required>
+                <button type="button" class="toggle-btn" data-target="newpass">Göster</button>
+            </div>
+        </div>
+
+        <!-- ŞİFRE TEKRAR -->
+        <div class="field">
+            <label for="newpass2">Yeni Şifre (tekrar)</label>
+            <div class="password-row">
+                <input id="newpass2" type="password" placeholder="Şifreyi tekrar yaz" required>
+                <button type="button" class="toggle-btn" data-target="newpass2">Göster</button>
+            </div>
+        </div>
+
+        <button type="submit" class="primary-btn">Şifreyi Güncelle</button>
+    </form>
+
+    <div class="divider">Veya</div>
+    <a href="auth.html" class="back-link">Giriş sayfasına dön</a>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">
+    ✅ Şifren başarıyla güncellendi!
+</div>
+
+<script>
+    /* 6 kutucukta otomatik geçiş */
+    const codeInputs = document.querySelectorAll(".code-input");
+    codeInputs.forEach((input, index) => {
+        input.addEventListener("input", (e) => {
+            const value = e.target.value;
+            if (value && index < codeInputs.length - 1) {
+                codeInputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !e.target.value && index > 0) {
+                codeInputs[index - 1].focus();
+            }
+        });
+    });
+
+    /* Şifre göster / gizle */
+    const toggleButtons = document.querySelectorAll(".toggle-btn");
+    toggleButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetId = btn.getAttribute("data-target");
+            const input = document.getElementById(targetId);
+            if (!input) return;
+
+            if (input.type === "password") {
+                input.type = "text";
+                btn.textContent = "Gizle";
+            } else {
+                input.type = "password";
+                btn.textContent = "Göster";
+            }
+        });
+    });
+
+    /* Submit + toast */
+    const form = document.getElementById("reset-form");
+    const toast = document.getElementById("toast");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const pass1 = document.getElementById("newpass").value;
+        const pass2 = document.getElementById("newpass2").value;
+
+        if (pass1.length < 6) {
+            alert("Şifre en az 6 karakter olmalı.");
+            return;
+        }
+
+        if (pass1 !== pass2) {
+            alert("Şifreler eşleşmiyor.");
+            return;
+        }
+
+        // Şimdilik backend yok, sadece toast gösteriyoruz
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+            // İstersen burada auth.html'e redirect edebilirsin:
+            // window.location.href = "auth.html";
+        }, 2200);
+    });
+</script>
+</body>
+</html>

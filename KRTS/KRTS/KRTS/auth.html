@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Giriş / Kayıt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        /* ARKA PLAN: soft pembe + mor gradient */
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f9d7ec, #d6b4fc, #b192ff);
+            background-size: 300% 300%;
+            animation: gradientFlow 8s ease infinite;
+            color: #0f172a;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* KUTU: eski genişlik ve hizalar korunuyor */
+        .auth-wrapper {
+        background: #ffffff;              /* kutu beyaz */
+        border-radius: 16px;
+        padding: 32px 24px;
+        width: 100%;
+        max-width: 420px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18); 
+    
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #f7a2ea;
+        }
+
+        .auth-header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+        }
+
+        .auth-header p {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .tabs {
+            display: flex;
+            background: #fa8df1;
+            border-radius: 999px;
+            padding: 3px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        /* TAB aktif rengi pembe-mor */
+        .tab-btn.active {
+            background: linear-gradient(135deg, #ff84cf, #c084fc);
+            color: white;
+            box-shadow: 0 0 0 1px rgba(248, 187, 255, 0.6);
+        }
+
+        form {
+            display: none;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        form.active {
+            display: flex;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #000000;
+        }
+
+        input {
+            border-radius: 10px;
+            border: 1px solid #1f2937;
+            padding: 10px 12px;
+            background: #ffffff;
+            color: #e5e7eb;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        input::placeholder {
+            color: #6b7280;
+        }
+
+        input:focus {
+            border-color: #ff84cf;
+            box-shadow: 0 0 0 1px rgba(255, 132, 207, 0.5);
+            background: #fa8df1;
+        }
+
+        /* Beni hatırla + Şifremi unuttum: eski gibi küçük & sağa yatan link */
+        .helper-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .helper-row a {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .helper-row a:hover {
+            text-decoration: underline;
+        }
+
+        .primary-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #ff84cf, #c084fc);
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+            width: 100%;
+        }
+
+        .primary-btn:hover {
+            filter: brightness(1.05);
+            box-shadow: 0 10px 20px rgba(255, 132, 207, 0.45);
+        }
+
+        .primary-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        .divider {
+            margin: 18px 0 10px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: #ef9dd5;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .small-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .auth-wrapper {
+                margin: 0 12px;
+                padding: 24px 18px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.4rem;
+            }
+        }
+        .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.social-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.social-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Google */
+.social-btn.google {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    color: #222;
+}
+
+/* Apple */
+.social-btn.apple {
+    background: #000;
+    color: white;
+}
+
+/* Hover efektleri */
+.social-btn:hover {
+    transform: translateY(-2px);
+    transition: 0.2s;
+}
+
+    </style>
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-header">
+        <h1>Hoş geldin 👋</h1>
+        <p>Hesabın varsa giriş yap, yoksa hemen kayıt ol.</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-target="login-form">Giriş Yap</button>
+        <button class="tab-btn" data-target="register-form">Kayıt Ol</button>
+    </div>
+
+    <!-- GİRİŞ FORMU -->
+    <form id="login-form" class="active">
+        <div class="field">
+            <label for="login-email">Email</label>
+            <input id="login-email" type="email" placeholder="ornek@mail.com" required />
+        </div>
+        <div class="field">
+            <label for="login-password">Şifre</label>
+            <input id="login-password" type="password" placeholder="Şifreniz" required />
+        </div>
+
+        <div class="helper-row">
+            <label style="display:flex;align-items:center;gap:6px;">
+                <input type="checkbox" style="width:14px;height:14px;" />
+                Beni hatırla
+            </label>
+            <a href="forgot.html">Şifremi unuttum</a>
+        </div>
+
+        <button type="submit" class="primary-btn">Giriş Yap</button>
+    </form>
+
+    <!-- KAYIT FORMU -->
+    <form id="register-form">
+        <div class="field">
+            <label for="reg-name">Ad Soyad</label>
+            <input id="reg-name" type="text" placeholder="Ad Soyad" required />
+        </div>
+        <div class="field">
+            <label for="reg-email">Email</label>
+            <input id="reg-email" type="email" placeholder="ornek@mail.com" required />
+        </div>
+        <div class="field">
+            <label for="reg-password">Şifre</label>
+            <input id="reg-password" type="password" placeholder="En az 6 karakter" required />
+        </div>
+        <div class="field">
+            <label for="reg-password2">Şifre (tekrar)</label>
+            <input id="reg-password2" type="password" placeholder="Şifreyi tekrar yaz" required />
+        </div>
+
+        <button type="submit" class="primary-btn">Kayıt Ol</button>
+    </form>
+
+    <div class="divider">Veya</div>
+    <div class="social-buttons">
+    <button class="social-btn google" ><
+        Google ile Giriş Yap
+    </button>
+
+    <button class="social-btn apple">
+        <img src="https://www.svgrepo.com/show/303128/apple-logo.svg" alt="">
+        Apple ile Giriş Yap
+    </button>
+</div>
+
+    
+</div>
+
+<script>
+    // Tab geçişleri
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const forms = document.querySelectorAll("form");
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            tabButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            forms.forEach(f => f.classList.remove("active"));
+            const targetForm = document.getElementById(btn.dataset.target);
+            targetForm.classList.add("active");
+        });
+    });
+
+    // Şimdilik sadece frontend
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            alert("Şimdilik sadece frontend. Backend bağlayınca buradan isteği göndereceksin 🚀");
+        });
+    });
+</script>
+</body>
+</html>

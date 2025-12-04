@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hizmetimiz - Ana Sayfa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Footer (Alt Bilgi) Stilleri --- */
+.footer {
+    background-color: #ffffff; /* Beyaz veya hafif açık bir renk */
+    padding: 40px 5%;
+    border-top: 1px solid #eee;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 30px auto; /* copyright kısmı ile araya boşluk */
+    flex-wrap: wrap; /* Küçük ekranlarda alt alta düşmesi için */
+}
+
+.footer-content > div {
+    flex: 1; /* Esnek dağılım */
+    min-width: 200px; /* Bölümlerin çok daralmasını önler */
+}
+
+.footer h3 {
+    font-size: 1.3em;
+    color: var(--color-secondary); /* Mor Başlık */
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.footer p, .footer a {
+    color: var(--color-light-text);
+    text-decoration: none;
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.footer a:hover {
+    color: var(--color-primary); /* Pembe hover rengi */
+}
+
+/* Sosyal Medya İkon Stilleri */
+.social-media a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: #f0f0f0; /* Açık gri arka plan */
+    color: var(--color-secondary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.social-media a:hover {
+    background-color: var(--color-secondary); /* Mor arka plan */
+    color: white; /* Beyaz ikon */
+}
+
+/* Telif Hakkı Stili */
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    color: var(--color-light-text);
+    font-size: 0.85em;
+}
+        :root {
+            /* Giriş sayfanızdaki pastel pembe ve mor tonları */
+            --color-primary: #e6a0c5; /* Açık Pembe */
+            --color-secondary: #c988d3; /* Açık Mor */
+            --color-background: #fdfcff; /* Açık Beyaz/Krem */
+            --color-text: #333333;
+            --color-light-text: #6a6a6a;
+            --color-btn-hover: #b470bf;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /* --- Navigasyon (Logo ve Menü) --- */
+        .header {
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed; /* Navigasyonu ekranda sabitler */
+            /* Hafif bir gölge ile ayrım */
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05); 
+            background-color: #ffffff;
+        }
+
+        .logo {
+            /* Logo solda olacak */
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--color-secondary); 
+            text-decoration: none;
+            /* Ekstra vurgu için gradient denemesi */
+            background-image: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text);
+            margin-left: 25px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Giriş yap Butonu */
+        .login-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            background-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(var(--color-secondary), 0.4);
+        }
+
+        /* Büyük Başlık ve Tanıtım */
+        .hero {
+            padding: 80px 5%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: var(--color-light-text);
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            background-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(var(--color-secondary), 0.5);
+        }
+
+        /* --- Özellikler Bölümü --- */
+        .features {
+            padding: 60px 5%;
+            text-align: center;
+            background-color: #f7f3fb; 
+        }
+
+        .features h2 {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: var(--color-secondary);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: left;
+            transition: transform 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-item h3 {
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .feature-item p {
+            color: var(--color-light-text);
+        }
+
+        /* --- Alt Bilgi --- */
+        .footer {
+            padding: 20px 5%;
+            text-align: center;
+            border-top: 1px solid #eee;
+            color: var(--color-light-text);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="krts.jpg" class="logo">App Logo</a> 
+        
+        <nav class="nav-links">
+            <a href="#ozellikler">Özellikler</a>
+            <a href="#hakkimizda">Hakkımızda</a>
+            <a href="auth2.html" class="login-btn">Kuafor Girişi Yap</a>
+            <a href="auth.html" class="login-btn">Giriş Yap</a>
+            
+        </nav>
+    </header>
+
+    <section class="hero"><br><br><br><br>
+        <h1>Güzelliğiniz İçin Bir Tık Uzağınızda</h1>
+        <p>Çevrenizdeki en iyi kuaför salonlarını keşfedin ve kolayca randevunuzu alın.</p>
+        <a href="#" class="cta-btn">Randevu Al</a>
+    </section>
+
+    <section class="features" id="ozellikler">
+        <h2>Neden Bizi Seçmelisiniz?</h2>
+        <div class="feature-grid">
+            
+            <div class="feature-item">
+                <h3>✨ Şık ve Sade Tasarım</h3>
+                <p>Göz yormayan pastel renk paletimizle, dijital dağınıklığa son verin. Odaklanmanızı kolaylaştırın.</p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>🚀 Hızlı ve Güvenilir</h3>
+                <p>Anlık senkronizasyon ve güçlü altyapı sayesinde verilerinize her zaman, her yerden erişin.</p>
+            </div>
+            
+            <div class="feature-item">
+                <h3>💖 Tamamen Özelleştirilebilir</h3>
+                <p>Kendi renk temalarınızı oluşturun ve uygulamayı tamamen kişisel zevkinize göre tasarlayın.</p>
+            </div>
+
+        </div>
+    </section>
+    <footer id="contact" class="footer">
+    <div class="footer-content">
+        <div class="about-us">
+            <h3 id="hakkimizda">Site Hakkında</h3>
+            <p>Lila Salonum, en iyi kuaför ve güzellik salonlarını tek bir platformda toplayarak randevu almayı kolaylaştıran bir web sitesidir.</p>
+        </div>
+        <div class="contact-info">
+            <h3>Bize Ulaşın</h3>
+            <p>Email: <a href="mailto:info@lilasalonum.com">info@lilasalonum.com</a></p>
+            <p>Telefon: +90 5XX XXX XX XX</p>
+        </div>
+        <div class="social-media">
+            <h3>Sosyal Medya</h3>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <div class="copyright">
+        &copy; 2025 Lila Salonum. Tüm Hakları Saklıdır.
+    </div>
+</footer>
+
+</body>
+</html>
